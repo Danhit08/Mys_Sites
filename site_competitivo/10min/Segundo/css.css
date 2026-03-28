@@ -1,0 +1,16 @@
+.header { 
+ font-family: 'Courier New', Courier, monospace;
+ display: flex;
+ background-color: black;
+ color: white;
+ border-radius: 20px;
+
+}
+.main {
+ font-family: 'Courier New', Courier, monospace;
+ display: flex;
+ background-color: chartreuse;
+ color: white;
+
+}
+
