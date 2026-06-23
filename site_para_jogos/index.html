@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Duff</title>
+
+<link rel="stylesheet" href="css/css.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="container">
+
+    <div class="profile-card">
+
+        <div class="banner">
+            <img src="img/punk.gif" alt="">
+        </div>
+
+        <div class="profile-content">
+
+            <img src="img/04.gif" alt=""
+            class="avatar">
+
+            <h1>Duff</h1>
+
+            <span class="role">
+                Front-End Developer
+            </span>
+
+            <p class="bio">
+                Criando interfaces modernas,
+                dashboards e sistemas.
+            </p>
+
+            <div class="socials">
+
+                <a href="https://github.com/Danhit08" target="_blank" class="badge-icon">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="https://discord.com/users/820844419317760000" target="_blank" class="badge-icon">
+                    <i class="fab fa-discord"></i>
+                </a>
+
+                <a href="https://steamcommunity.com/profiles/76561199571584449/" target="_blank" class="badge-icon">
+                    <i class="fab fa-steam"></i>
+                </a>
+
+            </div>
+
+            <div class="views">
+                <i class="fas fa-eye"></i>
+                <span id="viewCounter">0</span>
+                visualizações
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="quick-grid">
+
+        <div class="mini-card"
+        onclick="openProjects()">
+
+            <i class="fas fa-code"></i>
+
+            <h3>Projetos</h3>
+
+        </div>
+
+        <div class="mini-card"
+        onclick="openComments()">
+
+            <i class="fas fa-comments"></i>
+
+            <h3>Comentários</h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL PROJETOS -->
+
+<div class="modal" id="projectsModal">
+
+    <div class="modal-box">
+
+        <span class="close"
+        onclick="closeProjects()">
+            &times;
+        </span>
+
+        <h2>
+            <i class="fas fa-code"></i>
+            Projetos
+        </h2>
+
+        <p class="modal-subtitle">
+            Estão em desenvolvimento
+        </p>
+
+        <div class="project-list">
+
+            <div class="project-item">
+
+                <h3>The Pro Battleground</h3>
+
+            </div>
+
+            <div class="project-item">
+
+                <h3>My Tiny Plot</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL COMENTÁRIOS -->
+
+<div class="modal" id="commentsModal">
+
+    <div class="modal-box">
+
+        <span class="close"
+        onclick="closeComments()">
+            &times;
+        </span>
+
+        <h2>Comentários</h2>
+
+        <input
+        id="nick"
+        placeholder="Nick">
+
+        <textarea
+        id="msg"
+        placeholder="Comentário"></textarea>
+
+        <button onclick="addComment()">
+            Enviar
+        </button>
+
+        <div id="comments"></div>
+
+    </div>
+
+</div>
+
+<!-- PLAYER -->
+
+<button
+class="music-btn"
+onclick="toggleMusic()">
+
+<i class="fas fa-music"></i>
+
+</button>
+
+<div class="music-panel"
+id="musicPanel">
+
+    <h3>Playlist</h3>
+    
+    <div class="playlist">
+        <div class="playlist-item" onclick="playMusic('music/Chrono _ Everin - BRISA DE VERÃO _ Haley (Stardew Valley)(1080P_HD).mp3', this)">
+            🎵 BRISA DE VERÃO - Haley
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Chrono - ANO DO PAVÃO _ Lord Shen (Kung Fu Panda)(1080P_HD).mp3', this)">
+            🎵 ANO DO PAVÃO - Lord Shen
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Chrono - FLAGELO _ Scourge (Sonic)(1080P_HD).mp3', this)">
+            🎵 FLAGELO - Scourge
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Chrono - ME LEVE PRA LUA _ (Tonikaku Kawaii)(1080P_HD).mp3', this)">
+            🎵 ME LEVE PRA LUA
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Chrono - ROCKSTAR_ _ Piers (Pokémon)(1080P_HD).mp3', this)">
+            🎵 ROCKSTAR - Piers
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Chrono - TIPO LUTADOR _ Chronoverso(1080P_HD).mp3', this)">
+            🎵 TIPO LUTADOR - Chronoverso
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/N (Pokémon) - REI DE UNOVA _ Chrono(720P_HD).mp3', this)">
+            🎵 REI DE UNOVA - N
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/M4rkim - Vilão Do Cenário (Barou Shoei)(1080P_HD).mp3', this)">
+            🎵 Vilão Do Cenário - Barou
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Tic Tac (Fuufu Ijou_ Koibito Miman)(1080P_HD).mp3', this)">
+            🎵 Tic Tac
+        </div>
+        <div class="playlist-item" onclick="playMusic('music/Yhwach (Bleach) - 9.9.9 _ M4rkim(720P_HD).mp3', this)">
+            🎵 9.9.9 - Yhwach
+        </div>
+    </div>
+    
+    <div class="player-container">
+        <div class="visualizer" id="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <audio id="musicPlayer" controls>
+            <source id="audioSource" src="" type="video/mp4">
+        </audio>
+    </div>
+
+</div>
+
+<!-- BOUNCING HOBBIES -->
+<div id="bouncing-hobbies-container"></div>
+
+<script src="js/js.js"></script>
+
+</body>
+</html>
