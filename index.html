@@ -175,7 +175,10 @@ onclick="toggleMusic()">
 <div class="music-panel"
 id="musicPanel">
 
-    <h3>Playlist</h3>
+    <div class="music-panel-header">
+        <h3>Playlist</h3>
+        <button class="music-close-btn" onclick="closeMusic()" aria-label="Fechar playlist">X</button>
+    </div>
     
     <div class="playlist">
         <div class="playlist-item" onclick="playMusic('perfil_jogo/music/Chrono _ Everin - BRISA DE VERÃO _ Haley (Stardew Valley)(1080P_HD).mp3', this)">
@@ -196,7 +199,7 @@ id="musicPanel">
         <div class="playlist-item" onclick="playMusic('perfil_jogo/music/Chrono - TIPO LUTADOR _ Chronoverso(1080P_HD).mp3', this)">
             🎵 TIPO LUTADOR - Chronoverso
         </div>
-        <div class="playlist-item" onclick="playMusic('perfil_jogo/music/Chrono - REI DE UNOVA _ Chrono(720P_HD).mp3', this)">
+        <div class="playlist-item" onclick="playMusic('perfil_jogo/music/N (Pokémon) - REI DE UNOVA _ Chrono(720P_HD).mp3', this)">
             🎵 REI DE UNOVA - N
         </div>
         <div class="playlist-item" onclick="playMusic('perfil_jogo/music/M4rkim - Vilão Do Cenário (Barou Shoei)(1080P_HD).mp3', this)">
@@ -228,6 +231,9 @@ id="musicPanel">
     </div>
 
 </div>
+
+<!-- BOUNCING COMMENTS -->
+<div id="bouncing-comments-container"></div>
 
 <!-- BOUNCING HOBBIES -->
 <div id="bouncing-hobbies-container"></div>

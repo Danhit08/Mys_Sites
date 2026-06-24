@@ -4,6 +4,12 @@ document
 .classList.toggle("active");
 }
 
+function closeMusic(){
+document
+.getElementById("musicPanel")
+.classList.remove("active");
+}
+
 function openProjects(){
 document
 .getElementById("projectsModal")
@@ -76,6 +82,7 @@ nick.value="";
 msg.value="";
 
 renderComments();
+renderBouncingComments();
 }
 
 function renderComments(){
@@ -102,7 +109,63 @@ area.innerHTML += `
 });
 }
 
+class BouncingComment {
+constructor(comment) {
+this.comment = comment;
+this.x = Math.random() * window.innerWidth;
+this.y = Math.random() * window.innerHeight;
+this.vx = (Math.random() - 0.5) * 3;
+this.vy = (Math.random() - 0.5) * 3;
+this.width = 240;
+this.height = 70;
+
+this.element = document.createElement('div');
+this.element.className = 'bouncing-comment';
+this.element.textContent = `${comment.nick}: ${comment.msg}`;
+document.getElementById('bouncing-comments-container').appendChild(this.element);
+this.updatePosition();
+}
+
+updatePosition() {
+this.element.style.left = this.x + 'px';
+this.element.style.top = this.y + 'px';
+}
+
+update() {
+this.x += this.vx;
+this.y += this.vy;
+
+if (this.x <= 0 || this.x + this.width >= window.innerWidth) {
+this.vx *= -1;
+this.x = Math.max(0, Math.min(this.x, window.innerWidth - this.width));
+}
+
+if (this.y <= 0 || this.y + this.height >= window.innerHeight) {
+this.vy *= -1;
+this.y = Math.max(0, Math.min(this.y, window.innerHeight - this.height));
+}
+
+this.updatePosition();
+}
+}
+
+let bouncingCommentInstances = [];
+
+function renderBouncingComments(){
+const comments = JSON.parse(localStorage.getItem("comments")) || [];
+const container = document.getElementById('bouncing-comments-container');
+if(!container) return;
+
+container.innerHTML = "";
+bouncingCommentInstances = [];
+
+comments.slice(-8).forEach(comment => {
+bouncingCommentInstances.push(new BouncingComment(comment));
+});
+}
+
 renderComments();
+renderBouncingComments();
 
 // BOUNCING HOBBIES
 
@@ -166,6 +229,9 @@ function animateBouncingHobbies() {
 bouncingHobbyInstances.forEach(hobby => {
 hobby.update();
 });
+bouncingCommentInstances.forEach(comment => {
+comment.update();
+});
 requestAnimationFrame(animateBouncingHobbies);
 }
 
@@ -187,6 +253,7 @@ const bgGlow = document.querySelector('.bg-glow');
 // Quando termina a música
 audioPlayer.addEventListener('ended', () => {
     isPlaying = false;
+    playRandomMusic();
 });
 
 // Atualizar visualizador enquanto toca
@@ -234,6 +301,22 @@ function playMusic(src, element){
     
     // Iniciar animação do visualizador
     animate();
+}
+
+function playRandomMusic(){
+    const playlistItems = Array.from(document.querySelectorAll('.playlist-item'));
+    if(playlistItems.length === 0) return;
+
+    const activeIndex = playlistItems.findIndex(item => item.classList.contains('active'));
+    let nextIndex = Math.floor(Math.random() * playlistItems.length);
+
+    if(playlistItems.length > 1){
+        while(nextIndex === activeIndex){
+            nextIndex = Math.floor(Math.random() * playlistItems.length);
+        }
+    }
+
+    playlistItems[nextIndex].click();
 }
 
 function animate(){

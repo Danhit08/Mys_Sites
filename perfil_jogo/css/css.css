@@ -226,11 +226,36 @@ right:0;
 box-shadow:0 0 20px rgba(168,85,247,.8), inset 0 0 20px rgba(168,85,247,.2);
 }
 
+.music-panel-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:15px;
+}
+
 .music-panel h3{
 color:var(--accent);
-margin-bottom:15px;
+margin:0;
 font-size:18px;
 text-shadow:0 0 10px rgba(168,85,247,.5);
+}
+
+.music-close-btn{
+border:none;
+background:transparent;
+color:white;
+font-size:18px;
+font-weight:700;
+line-height:1;
+cursor:pointer;
+padding:4px;
+transition:all .3s ease;
+}
+
+.music-close-btn:hover{
+color:var(--accent);
+text-shadow:0 0 10px rgba(168,85,247,.8);
 }
 
 .player-container{
@@ -401,6 +426,25 @@ box-shadow:0 0 15px rgba(168,85,247,.6);
     text-align:center;
 }
 
+
+.bouncing-comment{
+    position:fixed;
+    max-width:240px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(168,85,247,.35);
+    border-radius:12px;
+    padding:12px 14px;
+    color:white;
+    font-size:14px;
+    line-height:1.35;
+    z-index:0;
+    pointer-events:none;
+    box-shadow:0 0 24px rgba(168,85,247,.35);
+    user-select:none;
+    opacity:0.55;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
 /* Bouncing Hobbies */
 .bouncing-hobby{
     position:fixed;
