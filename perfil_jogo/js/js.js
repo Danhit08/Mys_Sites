@@ -34,25 +34,96 @@ document
 .style.display="none";
 }
 
-// views
+// dados do site
 
-let views =
-localStorage.getItem("views") || 0;
+const SITE_DATA_URL = "perfil_jogo/data/site-data.json";
+const LOCAL_SITE_DATA_KEY = "siteData";
+let siteData = {
+views:0,
+comments:[]
+};
 
-views++;
+function normalizeSiteData(data){
+return {
+views:Number(data && data.views) || 0,
+comments:Array.isArray(data && data.comments) ? data.comments : []
+};
+}
 
-localStorage.setItem(
-"views",
-views
-);
+function mergeSiteData(jsonData, savedData){
+const merged = {
+views:Math.max(jsonData.views, savedData.views),
+comments:[]
+};
 
+const repeated = new Set();
+[...jsonData.comments, ...savedData.comments].forEach(comment => {
+const key = `${comment.nick}|${comment.msg}|${comment.createdAt || ""}`;
+if(repeated.has(key)) return;
+repeated.add(key);
+merged.comments.push(comment);
+});
+
+return merged;
+}
+
+async function loadSiteData(){
+let jsonData = normalizeSiteData(siteData);
+let savedData = normalizeSiteData(siteData);
+
+try{
+const response = await fetch(SITE_DATA_URL, { cache:"no-store" });
+if(response.ok){
+jsonData = normalizeSiteData(await response.json());
+}
+}catch(error){}
+
+const savedRawData = localStorage.getItem(LOCAL_SITE_DATA_KEY);
+if(savedRawData){
+try{
+savedData = normalizeSiteData(JSON.parse(savedRawData));
+}catch(error){
+localStorage.removeItem(LOCAL_SITE_DATA_KEY);
+}
+}
+
+siteData = mergeSiteData(jsonData, savedData);
+}
+
+async function saveSiteData(){
+localStorage.setItem(LOCAL_SITE_DATA_KEY, JSON.stringify(siteData));
+
+try{
+await fetch(SITE_DATA_URL, {
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(siteData, null, 2)
+});
+}catch(error){
+// GitHub Pages permite ler o JSON, mas nao gravar nele pelo navegador.
+}
+}
+
+async function initSiteData(){
+await loadSiteData();
+siteData.views++;
+await saveSiteData();
+renderViews();
+renderComments();
+renderBouncingComments();
+}
+
+function renderViews(){
 document
 .getElementById("viewCounter")
-.innerText = views;
+.innerText = siteData.views;
+}
 
-// comentários
+// comentarios
 
-function addComment(){
+async function addComment(){
 
 const nick =
 document.getElementById("nick");
@@ -63,20 +134,13 @@ document.getElementById("msg");
 if(!nick.value || !msg.value)
 return;
 
-const comments =
-JSON.parse(
-localStorage.getItem("comments")
-) || [];
-
-comments.push({
-nick:nick.value,
-msg:msg.value
+siteData.comments.push({
+nick:nick.value.trim(),
+msg:msg.value.trim(),
+createdAt:Date.now()
 });
 
-localStorage.setItem(
-"comments",
-JSON.stringify(comments)
-);
+await saveSiteData();
 
 nick.value="";
 msg.value="";
@@ -87,28 +151,26 @@ renderBouncingComments();
 
 function renderComments(){
 
-const comments =
-JSON.parse(
-localStorage.getItem("comments")
-) || [];
-
 const area =
 document.getElementById("comments");
 
 area.innerHTML="";
 
-comments.forEach(c=>{
+siteData.comments.forEach(c=>{
+const comment = document.createElement("div");
+comment.className = "comment";
 
-area.innerHTML += `
-<div class="comment">
-<strong>${c.nick}</strong>
-<p>${c.msg}</p>
-</div>
-`;
+const nick = document.createElement("strong");
+nick.textContent = c.nick;
 
+const msg = document.createElement("p");
+msg.textContent = c.msg;
+
+comment.appendChild(nick);
+comment.appendChild(msg);
+area.appendChild(comment);
 });
 }
-
 class BouncingComment {
 constructor(comment) {
 this.comment = comment;
@@ -152,7 +214,7 @@ this.updatePosition();
 let bouncingCommentInstances = [];
 
 function renderBouncingComments(){
-const comments = JSON.parse(localStorage.getItem("comments")) || [];
+const comments = siteData.comments;
 const container = document.getElementById('bouncing-comments-container');
 if(!container) return;
 
@@ -164,8 +226,7 @@ bouncingCommentInstances.push(new BouncingComment(comment));
 });
 }
 
-renderComments();
-renderBouncingComments();
+initSiteData();
 
 // BOUNCING HOBBIES
 
